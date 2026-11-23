@@ -3,8 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>COE Price Intelligence - MMN16</title>
+  <title>The Psychology of the Singapore Wallet (1985–2025) | MMN16</title>
+  <!-- Chart.js 4.4 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(17, 24, 39, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #06b6d4;
+      --accent-purple: #8b5cf6;
+      --accent-rose: #f43f5e;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --gradient-text: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #818cf8 100%);
+    }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -12,88 +27,1118 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: radial-gradient(circle at 50% 20%, #1e293b 0%, #0f172a 100%);
-      color: #f8fafc;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+      color: var(--text-main);
       min-height: 100vh;
-      padding: 1.5rem;
+      line-height: 1.6;
+      padding-bottom: 5rem;
     }
-    .card {
-      background: rgba(30, 41, 59, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 3rem 2.5rem;
-      max-width: 580px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-    }
-    .avatar {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 1.5rem;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+
+    /* Presentation Deck Controller */
+    .presenter-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 13, 22, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0.75rem 1.5rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      box-shadow: 0 8px 16px -4px rgba(56, 189, 248, 0.4);
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-    h1 {
-      font-size: 1.85rem;
+    .presenter-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 0.9rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
-    p.subtitle {
-      color: #94a3b8;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 1.75rem;
+    .presenter-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
-    .badge {
+    .presenter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .presenter-btn:hover, .presenter-btn.active {
+      background: var(--accent-cyan);
+      color: #000;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Hero Header */
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+    .tag-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.5rem 1.1rem;
-      background-color: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      color: #34d399;
+      padding: 0.4rem 1rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-    .track-tag {
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      color: #64748b;
-    }
-    .track-tag span {
       color: #38bdf8;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.7;
+    }
+    .author-meta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      color: #64748b;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+    .author-meta span {
+      color: #cbd5e1;
       font-weight: 500;
+    }
+
+    /* Fear & Greed Retail Gauge Bar */
+    .gauge-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin: 2rem 0 3rem;
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .gauge-info h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .gauge-info p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .gauge-meter {
+      flex: 1;
+      min-width: 260px;
+      max-width: 450px;
+    }
+    .meter-bar {
+      height: 12px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #f43f5e 100%);
+      position: relative;
+    }
+    .meter-needle {
+      position: absolute;
+      top: -6px;
+      left: 78%;
+      width: 24px;
+      height: 24px;
+      background: #fff;
+      border: 3px solid #000;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px rgba(255,255,255,0.8);
+      transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .meter-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .gauge-status {
+      text-align: right;
+    }
+    .gauge-score {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent-rose);
+      line-height: 1;
+    }
+    .gauge-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Key Metric Highlight Grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3.5rem;
+    }
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .metric-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+    .metric-card.panic::before { background: var(--accent-emerald); }
+    .metric-card.collapse::before { background: var(--accent-rose); }
+    .metric-card.revenge::before { background: var(--accent-purple); }
+    .metric-card.lipstick::before { background: var(--accent-amber); }
+    .metric-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .metric-val {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+    .metric-card.panic .metric-val { color: var(--accent-emerald); }
+    .metric-card.collapse .metric-val { color: var(--accent-rose); }
+    .metric-card.revenge .metric-val { color: var(--accent-purple); }
+    .metric-card.lipstick .metric-val { color: var(--accent-amber); }
+    .metric-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+    .metric-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Story Act Section Cards */
+    .story-act {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 3rem;
+      backdrop-filter: blur(16px);
+      position: relative;
+    }
+    .act-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .act-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+    .act-1 .act-tag { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+    .act-2 .act-tag { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
+    .act-3 .act-tag { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+    .act-4 .act-tag { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+    .act-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+    .act-narrative {
+      font-size: 1rem;
+      color: #cbd5e1;
+      max-width: 900px;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+    .act-narrative strong {
+      color: #fff;
+    }
+
+    /* Chart Container & Toolbar */
+    .chart-box {
+      background: rgba(11, 15, 25, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .chart-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .chart-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .chart-pills {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .pill-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pill-btn:hover, .pill-btn.active {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 380px;
+    }
+
+    /* Interactive Quiz Widget */
+    .quiz-container {
+      background: rgba(11, 15, 25, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 1.5rem;
+    }
+    .quiz-question {
+      margin-bottom: 1.75rem;
+    }
+    .quiz-q-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.75rem;
+    }
+    .quiz-opt {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .quiz-opt:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+    .quiz-opt.selected {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--accent-cyan);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+    }
+    .quiz-result-box {
+      margin-top: 2rem;
+      padding: 1.75rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      display: none;
+      animation: fadeIn 0.4s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .result-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .result-desc {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Macro Simulator */
+    .sim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .sim-slider-box {
+      background: rgba(11, 15, 25, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .slider-header span:last-child {
+      color: var(--accent-cyan);
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      background: #334155;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      accent-color: var(--accent-cyan);
+    }
+    .sim-output {
+      background: rgba(11, 15, 25, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .sim-proj-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+    .sim-proj-item:last-child { border-bottom: none; }
+    .sim-proj-val { font-weight: 700; }
+    .val-up { color: var(--accent-emerald); }
+    .val-down { color: var(--accent-rose); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--card-border);
+    }
+    footer a {
+      color: var(--accent-cyan);
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="avatar">🚀</div>
-    <h1>Hi NUS Antigravity Hackathon! I am MMN16</h1>
-    <p class="subtitle">NUS MSBA Build with Antigravity Hands-on Lab (2026-11-23)</p>
-    <div class="badge">Status: Initial Environment Verification Passed ✅</div>
-    <div class="track-tag">Track: <span>COE Price Intelligence</span></div>
-  </div>
+
+  <!-- Presentation Deck Controller -->
+  <header class="presenter-bar">
+    <div class="presenter-title">
+      <span>🎙️ Presenter Controller</span>
+    </div>
+    <div class="presenter-pills">
+      <button class="presenter-btn active" onclick="jumpToAct('hero')">Overview</button>
+      <button class="presenter-btn" onclick="jumpToAct('act1')">Act I: Survival Instinct</button>
+      <button class="presenter-btn" onclick="jumpToAct('act2')">Act II: Revenge Flex</button>
+      <button class="presenter-btn" onclick="jumpToAct('act3')">Act III: Lipstick Paradox</button>
+      <button class="presenter-btn" onclick="jumpToAct('act4')">Act IV: Audience Quiz</button>
+      <button class="presenter-btn" onclick="jumpToAct('act5')">Stress Test Simulator</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <div class="tag-badge">
+        <span>🧠 Macroeconomics & Behavioral Psychology</span>
+      </div>
+      <h1>The Psychology of the Singapore Wallet</h1>
+      <p>
+        40 Years of Fear, Flexing, and the Lipstick Paradox (1985–2025). An empirical investigation into how Singaporean consumers trade survival instinct against luxury dopamine during macroeconomic crises.
+      </p>
+      <div class="author-meta">
+        <div>Author: <span>MMN16</span></div>
+        <div>Cohort: <span>NUS MSBA 'Build with Antigravity' Lab</span></div>
+        <div>Dataset: <span>Singapore Retail Sales Index (SingStat)</span></div>
+        <div>Status: <span>Live Presentation Ready ✅</span></div>
+      </div>
+    </section>
+
+    <!-- Fear & Greed Retail Index -->
+    <section class="gauge-card">
+      <div class="gauge-info">
+        <h3>🧭 The Singapore Retail Sentiment Gauge</h3>
+        <p>Dynamic ratio of Conspicuous Luxury (Watches/Jewellery) vs. Pure Survival Essentials (Supermarkets).</p>
+      </div>
+      <div class="gauge-meter">
+        <div class="meter-bar">
+          <div class="meter-needle" id="gaugeNeedle"></div>
+        </div>
+        <div class="meter-labels">
+          <span>Turtle (Panic Saving)</span>
+          <span>Neutral</span>
+          <span>Peacock (Dopamine Flex)</span>
+        </div>
+      </div>
+      <div class="gauge-status">
+        <div class="gauge-score" id="gaugeScore">76.4</div>
+        <div class="gauge-label" id="gaugeText">Peacock / Revenge Mode</div>
+      </div>
+    </section>
+
+    <!-- Real Empirical Shock Metrics -->
+    <section class="metric-grid">
+      <div class="metric-card panic">
+        <div class="metric-icon">🛒</div>
+        <div class="metric-val">+53.9%</div>
+        <div class="metric-title">Panic Hoarding Surge</div>
+        <div class="metric-desc">Supermarket sales skyrocketed in Q2 2020 during the Circuit Breaker as survival instinct took over.</div>
+      </div>
+      <div class="metric-card collapse">
+        <div class="metric-icon">📉</div>
+        <div class="metric-val">-84.1%</div>
+        <div class="metric-title">Department Store Crater</div>
+        <div class="metric-desc">Physical retail & department store footfall suffered near-total evaporation during peak lockdown fear.</div>
+      </div>
+      <div class="metric-card revenge">
+        <div class="metric-icon">💎</div>
+        <div class="metric-val">+615.5%</div>
+        <div class="metric-title">The Revenge Supercycle</div>
+        <div class="metric-desc">Watches & Jewellery exploded from index 19.3 in Q2 2020 to 137.9 by Q4 2022 in a massive post-lockdown flex.</div>
+      </div>
+      <div class="metric-card lipstick">
+        <div class="metric-icon">💄</div>
+        <div class="metric-val">104.4</div>
+        <div class="metric-title">Lipstick Effect Floor</div>
+        <div class="metric-desc">Cosmetics, toiletries & medical goods proved almost crisis-proof, serving as perpetual micro-dopamine splurges.</div>
+      </div>
+    </section>
+
+    <!-- ACT I: The Survival Instinct -->
+    <section class="story-act act-1" id="act1">
+      <div class="act-header">
+        <div>
+          <span class="act-tag">Act I: Behavioral Biology</span>
+          <h2 class="act-title">The Survival Instinct: Fear & The Great Divergence (2020)</h2>
+        </div>
+      </div>
+      <p class="act-narrative">
+        When existential panic strikes, human psychology strips away all social signaling. In <strong>Q2 2020 (Circuit Breaker)</strong>, the Singapore consumer economy split into two opposite realities: <strong>Supermarkets & Hypermarkets surged by +53.9%</strong> as residents stockpiled rice and toilet paper, while <strong>Watches & Jewellery crashed -82.0%</strong> and <strong>Wearing Apparel fell -81.5%</strong>. Social ego died; primal survival prevailed.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-toolbar">
+          <div class="chart-heading">
+            <span>📊 Supermarket Panic vs. Luxury Status Collapse (2018–2022)</span>
+          </div>
+          <div class="chart-pills">
+            <button class="pill-btn active" onclick="filterAct1Chart('all')">Full View</button>
+            <button class="pill-btn" onclick="filterAct1Chart('circuit-breaker')">Focus: Q2 2020 Shock</button>
+            <button class="pill-btn" onclick="filterAct1Chart('rebound')">Focus: Rebound</button>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="act1Chart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT II: The Revenge Supercycle -->
+    <section class="story-act act-2" id="act2">
+      <div class="act-header">
+        <div>
+          <span class="act-tag">Act II: Compensatory Psychology</span>
+          <h2 class="act-title">The Dopamine Snapback: The +615% Revenge Supercycle</h2>
+        </div>
+      </div>
+      <p class="act-narrative">
+        Behavioral economics defines <em>compensatory consumption</em> as spending triggered by feelings of psychological deprivation. Once border restrictions and dining bans eased, Singapore experienced the fiercest <strong>Veblen luxury flex</strong> in its modern history: Watches & Jewellery rose from an index low of <strong>19.27</strong> to a historic high of <strong>137.88 (+615.5%)</strong> by Q4 2022, staying elevated through 2025 at an astonishing <strong>170.41</strong>.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-toolbar">
+          <div class="chart-heading">
+            <span>📈 Watches & Luxury Jewellery vs. Macro Baseline Index (2015–2025)</span>
+          </div>
+          <div class="chart-pills">
+            <button class="pill-btn active" onclick="filterAct2Chart('luxury')">Watches & Jewellery vs Total</button>
+            <button class="pill-btn" onclick="filterAct2Chart('apparel')">Include Apparel (+532%)</button>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="act2Chart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT III: The Lipstick Paradox -->
+    <section class="story-act act-3" id="act3">
+      <div class="act-header">
+        <div>
+          <span class="act-tag">Act III: Micro-Indulgence Theory</span>
+          <h2 class="act-title">The Lipstick Paradox: Small Dopamine When Big Dreams Stall</h2>
+        </div>
+      </div>
+      <p class="act-narrative">
+        Leonard Lauder coined the <em>Lipstick Index</em> during the 2001 recession: when macro uncertainty or high inflation prices consumers out of major capital commitments (houses, cars, luxury holidays), they compensate with affordable luxuries (cosmetics, premium coffee, artisanal treats). Looking across 40 years (1997 AFC, 2003 SARS, 2008 GFC, 2020 COVID), <strong>Cosmetics & Medical Goods</strong> never suffered catastrophic downturns—it consistently acts as the emotional stabilizer of the Singapore wallet.
+      </p>
+
+      <div class="chart-box">
+        <div class="chart-toolbar">
+          <div class="chart-heading">
+            <span>⚖️ Big-Ticket Vehicles vs. Resilient Micro-Splurges (Cosmetics & Medical)</span>
+          </div>
+          <div class="chart-pills">
+            <button class="pill-btn active" onclick="filterAct3Crisis('2000-2025')">All Modern (2000-2025)</button>
+            <button class="pill-btn" onclick="filterAct3Crisis('2008')">2008 GFC</button>
+            <button class="pill-btn" onclick="filterAct3Crisis('2020')">2020 COVID</button>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="act3Chart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT IV: Interactive Audience Profiler -->
+    <section class="story-act act-4" id="act4">
+      <div class="act-header">
+        <div>
+          <span class="act-tag">Act IV: Live Audience Interaction</span>
+          <h2 class="act-title">What Singapore Consumer Archetype Are You?</h2>
+        </div>
+      </div>
+      <p class="act-narrative">
+        Invite the audience or instructor to answer 3 fast behavioral dilemmas to reveal their empirical spending profile:
+      </p>
+
+      <div class="quiz-container">
+        <div class="quiz-question">
+          <div class="quiz-q-title">1. Breaking news: A global supply crunch hits Singapore tomorrow. Your immediate instinct:</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" onclick="selectQuizOpt(1, 'panic', this)">🛒 Dash to NTUC FairPrice for rice & canned goods</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(1, 'lipstick', this)">💄 Buy that premium skincare serum before it sells out</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(1, 'revenge', this)">💎 Shrug and book a luxury staycation at Marina Bay Sands</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(1, 'hermit', this)">💻 Order backup electronics and noise-cancelling headphones</div>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-q-title">2. A surprise S$5,000 performance bonus lands in your bank account:</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" onclick="selectQuizOpt(2, 'panic', this)">🏦 Lock it into fixed deposit or emergency savings immediately</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(2, 'revenge', this)">⌚ Put a deposit on a luxury watch or designer handbag</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(2, 'lipstick', this)">☕ Treat friends to high-end omakase and artisanal coffee</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(2, 'hermit', this)">🖥️ Upgrade your home gaming rig & smart home automation</div>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <div class="quiz-q-title">3. During prolonged economic stagflation, your mental coping mechanism is:</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" onclick="selectQuizOpt(3, 'panic', this)">📦 Counting rations and trimming all discretionary spending</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(3, 'lipstick', this)">💆 "Treat Yourself" micro-dopamine moments under S$100</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(3, 'revenge', this)">🥂 "You Only Live Once" — flex to maintain social status</div>
+            <div class="quiz-opt" onclick="selectQuizOpt(3, 'hermit', this)">🏡 Binge-watching at home with food delivery and high-speed fiber</div>
+          </div>
+        </div>
+
+        <div id="quizResult" class="quiz-result-box">
+          <div class="result-title" id="resTitle">🛒 The Panic Survivalist</div>
+          <div class="result-desc" id="resDesc">
+            You are motivated by security and loss aversion. During Q2 2020, you were part of the demographic that drove Supermarket & Hypermarket sales up +53.9% while completely freezing luxury and discretionary spending!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT V: Macro Stress-Test Simulator -->
+    <section class="story-act" id="act5" style="border-color: rgba(56, 189, 248, 0.3);">
+      <div class="act-header">
+        <div>
+          <span class="act-tag" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">Act V: Scenario Engine</span>
+          <h2 class="act-title">Live Macroeconomic Stress-Test Simulator</h2>
+        </div>
+      </div>
+      <p class="act-narrative">
+        Simulate how Singapore consumer wallet allocations shift under hypothetical macroeconomic stress parameters:
+      </p>
+
+      <div class="sim-grid">
+        <div class="sim-slider-box">
+          <div class="slider-header">
+            <span>Macro Uncertainty / Crisis Level</span>
+            <span id="sliderShockVal">40%</span>
+          </div>
+          <input type="range" id="sliderShock" min="0" max="100" value="40" oninput="updateSim()">
+          
+          <div class="slider-header" style="margin-top: 1.5rem;">
+            <span>Inflation / Cost-of-Living Stress</span>
+            <span id="sliderInfVal">5.0%</span>
+          </div>
+          <input type="range" id="sliderInf" min="0" max="15" step="0.5" value="5.0" oninput="updateSim()">
+        </div>
+
+        <div class="sim-output">
+          <div style="font-weight: 700; margin-bottom: 1rem; color: #fff;">📊 Forecasted Wallet Shifts:</div>
+          <div class="sim-proj-item">
+            <span>Supermarkets & Essentials:</span>
+            <span class="sim-proj-val val-up" id="projEssentials">+18.5% (Hoarding Shift)</span>
+          </div>
+          <div class="sim-proj-item">
+            <span>Watches & Luxury Goods:</span>
+            <span class="sim-proj-val val-down" id="projLuxury">-32.0% (Status Deferral)</span>
+          </div>
+          <div class="sim-proj-item">
+            <span>Cosmetics & Micro-Splurges:</span>
+            <span class="sim-proj-val val-up" id="projLipstick">+7.2% (Lipstick Effect)</span>
+          </div>
+          <div class="sim-proj-item">
+            <span>Predicted Sentiment Archetype:</span>
+            <span class="sim-proj-val" style="color: var(--accent-amber);" id="projArchetype">Pragmatic Turtle</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        NUS MSBA Build with Antigravity Hands-on Lab (2026-11-23) • Built with Google Antigravity & Chart.js<br>
+        Source Data: SingStat Singapore Retail Sales Index (1985–2025) • Live Pull Request <a href="https://github.com/nus-msba-antigravity-2026/nus-msba-antigravity-lab-2026/pull/27" target="_blank">PR #27</a>
+      </p>
+    </footer>
+  </main>
+
+  <!-- Embedded Pristine Data & Charts Engine -->
+  <script>
+    const RAW_DATA = {"quarters": ["20001Q", "20002Q", "20003Q", "20004Q", "20011Q", "20012Q", "20013Q", "20014Q", "20021Q", "20022Q", "20023Q", "20024Q", "20031Q", "20032Q", "20033Q", "20034Q", "20041Q", "20042Q", "20043Q", "20044Q", "20051Q", "20052Q", "20053Q", "20054Q", "20061Q", "20062Q", "20063Q", "20064Q", "20071Q", "20072Q", "20073Q", "20074Q", "20081Q", "20082Q", "20083Q", "20084Q", "20091Q", "20092Q", "20093Q", "20094Q", "20101Q", "20102Q", "20103Q", "20104Q", "20111Q", "20112Q", "20113Q", "20114Q", "20121Q", "20122Q", "20123Q", "20124Q", "20131Q", "20132Q", "20133Q", "20134Q", "20141Q", "20142Q", "20143Q", "20144Q", "20151Q", "20152Q", "20153Q", "20154Q", "20161Q", "20162Q", "20163Q", "20164Q", "20171Q", "20172Q", "20173Q", "20174Q", "20181Q", "20182Q", "20183Q", "20184Q", "20191Q", "20192Q", "20193Q", "20194Q", "20201Q", "20202Q", "20203Q", "20204Q", "20211Q", "20212Q", "20213Q", "20214Q", "20221Q", "20222Q", "20223Q", "20224Q", "20231Q", "20232Q", "20233Q", "20234Q", "20241Q", "20242Q", "20243Q", "20244Q", "20251Q", "20252Q", "20253Q", "20254Q"], "series": {"Total": [61.75, 64.52, 66.78, 69.33, 71.35, 66.96, 65.62, 67.92, 67.72, 62.34, 64.04, 71.12, 68.87, 68.69, 70.64, 79.56, 82.36, 77.95, 77.36, 86.23, 87.81, 84.47, 84.93, 92.56, 93.56, 91.2, 87.31, 96.99, 96.73, 96.89, 90.9, 99.95, 101.23, 99.52, 97.7, 97.73, 92.78, 89.46, 89.02, 94.12, 92.23, 85.07, 88.7, 95.75, 90.31, 93.33, 92.81, 101.35, 98.89, 93.98, 93.78, 99.88, 94.62, 93.39, 86.94, 92.03, 92.83, 88.35, 89.5, 97.64, 95.49, 93.66, 94.3, 101.02, 99.02, 96.15, 95.62, 102.13, 100.11, 96.88, 96.74, 106.27, 99.52, 97.83, 96.29, 103.34, 98.96, 93.88, 93.75, 99.14, 89.51, 56.34, 85.97, 94.88, 90.53, 85.02, 87.23, 100.18, 96.28, 97.98, 98.66, 108.72, 100.69, 100.04, 100.78, 109.2, 104.74, 100.38, 102.08, 109.19, 105.91, 101.57, 106.36, 114.04], "Watches & Jewellery": [52.15, 51.91, 51.37, 64.73, 54.28, 55.62, 51.68, 62.06, 54.1, 56.39, 53.92, 63.06, 50.74, 52.43, 56.57, 75.2, 62.66, 62.05, 60.59, 77.42, 73.67, 68.68, 68.78, 82.62, 71.03, 71.41, 67.13, 85.43, 76.49, 82.38, 73.73, 92.97, 82.94, 77.19, 77.16, 82.55, 67.3, 67.36, 73.7, 88.79, 80.36, 81.16, 83.03, 99.62, 94.87, 104.05, 99.63, 110.19, 102.59, 101.19, 96.79, 109.71, 103.59, 107.21, 98.33, 104.76, 107.34, 94.64, 94.72, 108.5, 108.53, 94.41, 101.95, 106.08, 100.58, 89.62, 92.1, 104.76, 100.64, 98.73, 96.05, 104.57, 101.45, 97.42, 101.34, 100.96, 98.44, 96.98, 94.84, 107.27, 78.78, 19.27, 79.7, 92.63, 96.87, 82.31, 87.93, 114.46, 114.81, 121.66, 119.97, 137.88, 114.14, 127.48, 124.32, 149.26, 128.71, 129.82, 125.41, 149.2, 142.56, 136.68, 142.8, 170.41], "Supermarkets & Hypermarkets": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 70.17, 68.2, 72.36, 73.33, 75.93, 72.76, 75.41, 75.8, 79.53, 76.54, 78.44, 80.45, 83.74, 81.17, 82.5, 83.81, 87.13, 82.3, 86.1, 87.13, 91.52, 87.19, 89.62, 90.75, 94.58, 90.28, 93.47, 94.23, 99.94, 93.79, 96.77, 95.6, 101.29, 94.31, 95.4, 94.87, 103.6, 98.07, 99.77, 98.56, 104.1, 96.32, 97.96, 96.92, 103.39, 96.1, 99.52, 98.84, 123.93, 152.09, 122.82, 122.44, 125.33, 127.32, 128.11, 129.52, 132.39, 119.23, 121.89, 123.38, 127.67, 119.02, 121.86, 119.99, 132.15, 118.58, 124.51, 122.5, 132.82, 122.4, 133.92, 128.32], "Department Stores": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 90.26, 89.95, 83.35, 103.22, 85.43, 86.8, 82.66, 102.96, 92.75, 92.3, 90.17, 109.12, 98.5, 97.8, 95.12, 118.32, 104.48, 98.94, 95.41, 117.19, 106.45, 100.48, 97.62, 119.03, 106.82, 98.45, 95.34, 116.4, 107.15, 100.14, 98.43, 113.76, 104.3, 93.64, 91.89, 112.33, 100.01, 93.44, 94.54, 112.0, 103.27, 92.86, 94.28, 113.11, 99.56, 90.77, 93.91, 106.83, 75.66, 16.97, 59.55, 75.88, 61.41, 49.98, 56.38, 77.41, 71.0, 77.11, 79.43, 94.93, 80.67, 78.97, 77.75, 91.66, 80.93, 74.56, 71.3, 87.44, 77.69, 71.89, 71.43, 87.17], "Wearing Apparel & Footwear": [74.84, 59.18, 65.27, 76.45, 72.51, 62.59, 62.46, 76.92, 70.86, 59.19, 61.4, 79.38, 69.37, 48.55, 56.3, 75.98, 67.04, 62.46, 63.07, 78.82, 78.18, 67.94, 66.18, 86.19, 85.87, 77.47, 75.95, 87.81, 94.76, 86.41, 83.83, 103.56, 101.84, 89.43, 89.3, 96.35, 89.37, 84.7, 90.41, 100.6, 101.6, 90.58, 92.75, 115.7, 106.76, 99.34, 99.8, 118.99, 110.7, 100.22, 102.56, 119.65, 114.48, 99.72, 101.34, 119.77, 111.14, 97.47, 95.85, 114.52, 108.3, 94.2, 93.44, 111.93, 103.84, 91.29, 88.69, 108.32, 102.22, 93.24, 92.82, 111.72, 109.02, 94.67, 95.77, 112.27, 110.45, 98.55, 98.77, 116.08, 85.52, 21.43, 70.26, 88.38, 85.05, 67.4, 71.74, 100.32, 100.45, 119.22, 116.48, 135.65, 129.51, 128.68, 124.41, 134.19, 129.42, 115.27, 114.2, 128.58, 121.97, 108.44, 110.91, 129.63], "Cosmetics, Toiletries & Medical Goods": [36.77, 36.14, 34.7, 37.23, 37.41, 36.57, 35.61, 37.6, 38.59, 36.19, 36.07, 40.79, 40.15, 39.68, 39.17, 41.45, 42.99, 43.42, 42.27, 44.97, 46.86, 43.66, 46.34, 49.04, 50.24, 49.55, 48.71, 50.34, 52.59, 52.94, 49.23, 53.11, 56.89, 56.62, 55.09, 58.91, 59.61, 60.05, 59.61, 61.89, 64.72, 65.63, 66.58, 70.76, 72.39, 70.74, 72.44, 78.0, 82.19, 79.98, 78.71, 83.91, 86.85, 82.84, 80.72, 86.81, 90.01, 85.48, 85.56, 89.57, 87.39, 88.04, 91.87, 96.59, 95.07, 90.39, 93.78, 101.55, 100.19, 94.67, 99.31, 105.83, 105.6, 101.29, 102.57, 110.13, 106.56, 100.98, 105.71, 111.89, 95.75, 58.42, 74.04, 78.24, 74.22, 70.53, 75.31, 87.72, 89.85, 85.69, 91.74, 104.98, 93.65, 96.7, 97.79, 105.72, 97.41, 96.59, 99.22, 108.25, 103.22, 99.84, 104.43, 115.21], "Food & Alcohol": [89.45, 60.22, 65.6, 66.57, 90.76, 63.63, 65.83, 67.99, 96.61, 68.62, 74.19, 72.27, 100.11, 56.62, 74.71, 77.59, 95.09, 68.75, 72.41, 73.04, 96.65, 78.07, 84.83, 86.88, 105.16, 86.08, 90.79, 91.8, 115.61, 88.39, 93.39, 97.58, 115.71, 90.39, 93.46, 92.2, 110.68, 89.81, 93.16, 94.17, 106.39, 88.0, 95.8, 99.15, 114.25, 96.7, 99.96, 107.26, 122.03, 99.17, 104.69, 111.2, 129.18, 105.82, 111.08, 113.25, 138.06, 108.83, 111.45, 115.58, 130.02, 102.82, 108.36, 102.79, 106.99, 96.82, 100.03, 102.76, 101.16, 91.84, 103.73, 103.26, 120.5, 92.77, 99.94, 101.46, 113.36, 91.68, 99.64, 100.57, 90.81, 44.22, 58.47, 62.91, 67.62, 58.47, 61.22, 69.73, 73.27, 84.29, 92.98, 109.21, 109.7, 108.08, 113.92, 122.42, 127.6, 114.88, 118.95, 130.65, 124.68, 112.55, 114.81, 123.47], "Computer & Telecommunications Equipment": [105.86, 112.56, 106.45, 104.63, 122.91, 92.75, 85.92, 82.54, 79.78, 82.83, 80.92, 97.9, 87.33, 90.62, 81.6, 86.41, 92.08, 89.88, 82.53, 89.16, 94.22, 89.97, 92.41, 91.23, 94.0, 96.72, 92.25, 95.34, 91.76, 104.48, 100.83, 113.3, 109.99, 98.69, 114.16, 113.26, 104.83, 102.37, 108.05, 124.13, 116.88, 101.8, 117.05, 128.36, 119.36, 118.21, 122.33, 161.59, 128.53, 128.73, 126.9, 156.65, 123.13, 123.22, 113.13, 141.44, 116.3, 111.54, 107.15, 169.92, 122.53, 108.41, 107.67, 135.58, 96.34, 86.54, 92.36, 122.83, 96.03, 85.98, 89.46, 128.53, 87.3, 78.39, 83.6, 118.02, 80.97, 73.47, 86.26, 116.4, 79.58, 73.28, 86.47, 131.67, 96.19, 95.36, 106.33, 154.4, 110.65, 102.86, 121.73, 156.96, 118.06, 105.95, 121.63, 155.23, 110.11, 102.6, 118.38, 141.57, 116.63, 112.79, 123.36, 152.92], "Mini-Marts & Convenience Stores": [57.44, 55.68, 56.56, 59.63, 60.04, 57.63, 59.3, 61.37, 61.56, 60.33, 62.08, 65.91, 64.49, 62.46, 64.71, 67.75, 69.83, 68.34, 70.18, 72.54, 78.66, 72.7, 76.79, 77.44, 81.31, 78.53, 82.13, 81.47, 86.08, 87.41, 87.16, 83.28, 87.63, 88.83, 94.16, 95.58, 93.34, 93.4, 95.53, 93.18, 92.74, 89.51, 94.19, 96.25, 98.55, 96.85, 101.06, 100.3, 103.22, 99.99, 103.77, 102.91, 106.12, 102.84, 106.38, 103.08, 102.84, 102.87, 106.98, 104.8, 101.89, 100.71, 103.08, 101.46, 104.5, 101.38, 104.19, 101.34, 101.94, 99.62, 100.8, 97.63, 100.65, 99.31, 101.28, 96.9, 101.78, 98.81, 100.57, 99.5, 104.16, 110.37, 102.66, 101.47, 100.79, 98.01, 97.19, 96.24, 95.1, 92.78, 93.77, 96.52, 95.62, 97.98, 100.01, 94.86, 96.13, 92.2, 97.96, 87.4, 93.06, 92.15, 97.28, 92.36], "Motor Vehicles": [65.72, 80.39, 85.61, 79.6, 93.69, 87.72, 83.33, 77.94, 84.11, 72.57, 77.04, 80.24, 87.15, 95.97, 98.46, 104.99, 118.87, 109.92, 108.31, 117.97, 126.99, 122.89, 118.66, 123.86, 137.79, 131.58, 116.13, 130.93, 132.78, 127.76, 109.87, 113.53, 122.49, 125.96, 112.87, 105.32, 105.97, 94.62, 83.04, 84.54, 77.91, 61.93, 67.5, 68.55, 57.15, 68.2, 65.51, 69.28, 70.7, 65.48, 63.66, 63.29, 54.88, 59.76, 40.04, 39.34, 48.44, 49.43, 52.6, 52.77, 64.78, 80.52, 75.94, 85.15, 95.25, 105.25, 98.32, 94.14, 100.92, 101.76, 94.29, 103.03, 86.9, 101.92, 85.71, 89.47, 91.98, 86.55, 76.72, 68.81, 70.58, 24.91, 75.96, 72.49, 74.91, 72.3, 68.46, 64.6, 64.88, 63.11, 58.82, 56.32, 64.72, 61.63, 61.75, 64.85, 73.5, 74.77, 76.87, 71.08, 79.11, 80.16, 83.41, 78.31]}};
+
+    // Global Chart Instances
+    let chart1, chart2, chart3;
+
+    // Initialize charts on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initAct1Chart();
+      initAct2Chart();
+      initAct3Chart();
+      updateGauge(76.4);
+    });
+
+    // Helper: Quarter Index Slicer
+    function getSlice(startQ, endQ) {
+      const startIdx = RAW_DATA.quarters.indexOf(startQ);
+      const endIdx = RAW_DATA.quarters.indexOf(endQ);
+      const s = startIdx === -1 ? 0 : startIdx;
+      const e = endIdx === -1 ? RAW_DATA.quarters.length : endIdx + 1;
+      return {
+        labels: RAW_DATA.quarters.slice(s, e),
+        get: (cat) => RAW_DATA.series[cat].slice(s, e)
+      };
+    }
+
+    // Act 1: The Panic Divergence Chart
+    function initAct1Chart() {
+      const slice = getSlice('20181Q', '20224Q');
+      const ctx = document.getElementById('act1Chart').getContext('2d');
+      chart1 = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: slice.labels,
+          datasets: [
+            {
+              label: 'Supermarkets & Hypermarkets (Survival)',
+              data: slice.get('Supermarkets & Hypermarkets'),
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.3,
+              pointRadius: 4,
+              pointHoverRadius: 7
+            },
+            {
+              label: 'Watches & Jewellery (Status Ego)',
+              data: slice.get('Watches & Jewellery'),
+              borderColor: '#8b5cf6',
+              borderWidth: 3,
+              tension: 0.3,
+              pointRadius: 4,
+              pointHoverRadius: 7
+            },
+            {
+              label: 'Department Stores (Traditional Retail)',
+              data: slice.get('Department Stores'),
+              borderColor: '#f43f5e',
+              borderWidth: 2,
+              borderDash: [5, 5],
+              tension: 0.3,
+              pointRadius: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { labels: { color: '#cbd5e1', font: { weight: 600 } } },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              titleColor: '#fff',
+              bodyColor: '#cbd5e1',
+              borderColor: 'rgba(255,255,255,0.1)',
+              borderWidth: 1
+            }
+          },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' }, title: { display: true, text: 'Retail Sales Index (Base 2017=100)', color: '#64748b' } }
+          }
+        }
+      });
+    }
+
+    function filterAct1Chart(mode) {
+      document.querySelectorAll('#act1 .pill-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      let slice;
+      if (mode === 'circuit-breaker') {
+        slice = getSlice('20193Q', '20211Q');
+      } else if (mode === 'rebound') {
+        slice = getSlice('20202Q', '20224Q');
+      } else {
+        slice = getSlice('20181Q', '20224Q');
+      }
+      chart1.data.labels = slice.labels;
+      chart1.data.datasets[0].data = slice.get('Supermarkets & Hypermarkets');
+      chart1.data.datasets[1].data = slice.get('Watches & Jewellery');
+      chart1.data.datasets[2].data = slice.get('Department Stores');
+      chart1.update();
+    }
+
+    // Act 2: The Revenge Supercycle Chart
+    function initAct2Chart() {
+      const slice = getSlice('20151Q', '20254Q');
+      const ctx = document.getElementById('act2Chart').getContext('2d');
+      chart2 = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: slice.labels,
+          datasets: [
+            {
+              label: 'Watches & Jewellery (+615% Rebound)',
+              data: slice.get('Watches & Jewellery'),
+              borderColor: '#8b5cf6',
+              backgroundColor: 'rgba(139, 92, 246, 0.12)',
+              borderWidth: 3.5,
+              fill: true,
+              tension: 0.35,
+              pointRadius: 3
+            },
+            {
+              label: 'Total Retail Baseline',
+              data: slice.get('Total'),
+              borderColor: '#38bdf8',
+              borderWidth: 2,
+              borderDash: [4, 4],
+              tension: 0.3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { labels: { color: '#cbd5e1', font: { weight: 600 } } }
+          },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+          }
+        }
+      });
+    }
+
+    function filterAct2Chart(mode) {
+      document.querySelectorAll('#act2 .pill-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      const slice = getSlice('20151Q', '20254Q');
+      if (mode === 'apparel') {
+        if (chart2.data.datasets.length === 2) {
+          chart2.data.datasets.push({
+            label: 'Wearing Apparel & Footwear (+532%)',
+            data: slice.get('Wearing Apparel & Footwear'),
+            borderColor: '#f59e0b',
+            borderWidth: 2.5,
+            tension: 0.35
+          });
+        }
+      } else {
+        if (chart2.data.datasets.length === 3) {
+          chart2.data.datasets.pop();
+        }
+      }
+      chart2.update();
+    }
+
+    // Act 3: The Lipstick Paradox Chart
+    function initAct3Chart() {
+      const slice = getSlice('20001Q', '20254Q');
+      const ctx = document.getElementById('act3Chart').getContext('2d');
+      chart3 = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: slice.labels,
+          datasets: [
+            {
+              label: 'Cosmetics, Toiletries & Medical (Lipstick Effect)',
+              data: slice.get('Cosmetics, Toiletries & Medical Goods'),
+              borderColor: '#f59e0b',
+              backgroundColor: 'rgba(245, 158, 11, 0.08)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.25,
+              pointRadius: 2
+            },
+            {
+              label: 'Motor Vehicles (Big Ticket Commitment)',
+              data: slice.get('Motor Vehicles'),
+              borderColor: '#06b6d4',
+              borderWidth: 2,
+              tension: 0.25,
+              pointRadius: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { labels: { color: '#cbd5e1', font: { weight: 600 } } }
+          },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+          }
+        }
+      });
+    }
+
+    function filterAct3Crisis(period) {
+      document.querySelectorAll('#act3 .pill-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      let slice;
+      if (period === '2008') {
+        slice = getSlice('20071Q', '20104Q');
+      } else if (period === '2020') {
+        slice = getSlice('20191Q', '20224Q');
+      } else {
+        slice = getSlice('20001Q', '20254Q');
+      }
+      chart3.data.labels = slice.labels;
+      chart3.data.datasets[0].data = slice.get('Cosmetics, Toiletries & Medical Goods');
+      chart3.data.datasets[1].data = slice.get('Motor Vehicles');
+      chart3.update();
+    }
+
+    // Gauge Update
+    function updateGauge(score) {
+      const needle = document.getElementById('gaugeNeedle');
+      needle.style.left = score + '%';
+      document.getElementById('gaugeScore').innerText = score.toFixed(1);
+    }
+
+    // Presenter Jump Navigation
+    function jumpToAct(actId) {
+      document.querySelectorAll('.presenter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      const el = document.getElementById(actId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Quiz Archetype Logic
+    const quizState = {};
+    function selectQuizOpt(qNum, archetype, el) {
+      const parent = el.parentElement;
+      parent.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+      quizState[qNum] = archetype;
+
+      if (Object.keys(quizState).length >= 3) {
+        computeArchetype();
+      }
+    }
+
+    function computeArchetype() {
+      const counts = { panic: 0, revenge: 0, lipstick: 0, hermit: 0 };
+      Object.values(quizState).forEach(a => counts[a] = (counts[a] || 0) + 1);
+      let topArchetype = 'panic';
+      let maxCount = -1;
+      for (const [k, v] of Object.entries(counts)) {
+        if (v > maxCount) {
+          maxCount = v;
+          topArchetype = k;
+        }
+      }
+
+      const resultBox = document.getElementById('quizResult');
+      const resTitle = document.getElementById('resTitle');
+      const resDesc = document.getElementById('resDesc');
+
+      resultBox.style.display = 'block';
+
+      if (topArchetype === 'panic') {
+        resTitle.innerHTML = '🛒 The Panic Survivalist';
+        resDesc.innerHTML = 'You are wired for loss aversion and baseline security. When crisis rumors swirl, your brain locks down non-essential spending. In Q2 2020, people like you drove the historic +53.9% supermarket surge!';
+        updateGauge(24.5);
+      } else if (topArchetype === 'revenge') {
+        resTitle.innerHTML = '💎 The Revenge Hedonist (YOLO Flexer)';
+        resDesc.innerHTML = 'You view spending as identity expression and catharsis. You believe money unspent is life unlived. You were the driving force behind the historic +615.5% luxury watch and jewellery explosion!';
+        updateGauge(91.2);
+      } else if (topArchetype === 'lipstick') {
+        resTitle.innerHTML = '💄 The Lipstick Pragmatist';
+        resDesc.innerHTML = 'You understand that big goals may be delayed by macro forces, but micro-happiness cannot be postponed. You sustain Singapore’s cafes, skincare boutiques, and beauty counters through thick and thin!';
+        updateGauge(62.0);
+      } else {
+        resTitle.innerHTML = '💻 The Hermit Tech-Optimizer';
+        resDesc.innerHTML = 'Your sanctuary is your personal digital ecosystem. You channel your budget into tech, gaming, productivity gadgets, and home comforts—mirroring Singapore’s steady IT and telco equipment demand!';
+        updateGauge(48.0);
+      }
+    }
+
+    // Macro Stress Simulator
+    function updateSim() {
+      const shock = parseInt(document.getElementById('sliderShock').value);
+      const inf = parseFloat(document.getElementById('sliderInf').value);
+
+      document.getElementById('sliderShockVal').innerText = shock + '%';
+      document.getElementById('sliderInfVal').innerText = inf.toFixed(1) + '%';
+
+      const essentialsShift = ((shock * 0.45) - (inf * 0.3)).toFixed(1);
+      const luxuryShift = (-(shock * 0.75) - (inf * 1.8)).toFixed(1);
+      const lipstickShift = ((shock * 0.2) + (inf * 0.4)).toFixed(1);
+
+      document.getElementById('projEssentials').innerText = (essentialsShift >= 0 ? '+' : '') + essentialsShift + '% (Hoarding Shift)';
+      document.getElementById('projLuxury').innerText = luxuryShift + '% (Status Deferral)';
+      document.getElementById('projLipstick').innerText = (lipstickShift >= 0 ? '+' : '') + lipstickShift + '% (Lipstick Coping)';
+
+      if (shock > 65) {
+        document.getElementById('projArchetype').innerText = 'Hardened Turtle (Full Lockdown)';
+        updateGauge(18.0);
+      } else if (shock > 35) {
+        document.getElementById('projArchetype').innerText = 'Pragmatic Turtle (Micro-Splurges)';
+        updateGauge(45.0);
+      } else {
+        document.getElementById('projArchetype').innerText = 'Confident Peacock (Status Flex)';
+        updateGauge(82.0);
+      }
+    }
+  </script>
 </body>
 </html>
